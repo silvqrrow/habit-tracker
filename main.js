@@ -1,7 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
-const { Habit, Habits } = require("./habit");
 const path = require("node:path");
-const cron = require("node-cron");
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -16,7 +14,6 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-  ipcMain.handle("ping", () => "pong");
   createWindow();
 
   app.on("activate", () => {
@@ -24,11 +21,6 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
-});
-
-// Schedule reset at midnight every day
-cron.schedule("0 0 * * *", () => {
-  Habit.resetDaily();
 });
 
 app.on("window-all-closed", () => {
